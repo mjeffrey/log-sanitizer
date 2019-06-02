@@ -4,10 +4,10 @@ This library can be used to intercept "suspicious" data before it is logged and 
 For example it can identify and mask Credit Card number or IBANS.
  
 The masking is meant to keep the logging useful but not useful enough for an attacker or a casual observer.
-This project was inspired the problem of logging sensitive data and by data breaches at Github and Twitter that appear to be the result of logging. 
+This project was inspired by the data breaches at Github and Twitter that appear to be the result of logging. 
 Traditionally code reviews are the mechanism meant to catch errors but these are not foolproof and security should be multi-layered. 
 This library can never be perfect and is meant to be an addition to, **NOT** a replacement for, secure development and operational practices. 
-It supports logback. Will be expanded to log4j2 and log4j in future but these are not yet tested. 
+It supports logback. It will be expanded to log4j2 and log4j in future but these are not yet tested. 
 
 ## Status
 Currently alpha, more automated testing needed. Not recommended for production yet.
@@ -31,12 +31,12 @@ There are few dependencies and they are only needed at runtime. The library plug
 * [logback]: runtime dependency with log-sanitizer-logback 
 
 
-### Installing
+## Installing
 
 The easiest way to use log-sanitizer is with Maven or Gradle.
 
-#### Logback
-Logback works in a slightly different way. In Logback a new MessageConverter with a "conversionWord" and then used as part of a pattern.
+## Logback
+In Logback a new MessageConverter with a "conversionWord" and then used as part of a pattern.
 For example: LogbackDefaultSanitizer defined as "sanitizedMessage"
 
 ```xml
@@ -65,7 +65,7 @@ compile group: 'be.sysa', name: 'log-sanitizer-core', version: '1.0.0'
 compile group: 'be.sysa', name: 'log-sanitizer-logback', version: '1.0.0'
 ```
 
-#### Log4J2 (works but not fully tested)
+## Log4J2 (works but not fully tested)
 
 Log4j2 implements a rewrite appender that is able to delegate to a real appender. In the example below we are delegating to console but typically it would be to a file appender.
 Within the rewrite appender the <MySanitizer/> element corresponds to the name attribute of a @org.apache.logging.log4j.core.config.plugins.Plugin annotation.
@@ -118,6 +118,7 @@ compile group: 'be.sysa', name: 'log-sanitizer-core', version: '1.0.0'
 compile group: 'be.sysa', name: 'log-sanitizer-log4j2', version: '1.0.0'
 ```
 
+# Development
 
 ## Running the tests
 
@@ -127,7 +128,8 @@ compile group: 'be.sysa', name: 'log-sanitizer-log4j2', version: '1.0.0'
 
 ./mvnw clean verify
 
-## Caveats and Limitation
+## Caveats and Limitations
+Testing is quite limited so far. It will be tested on real systems soon and integration tests with the logging systems themselves will be introduced. 
 
 ## Contributing
 
