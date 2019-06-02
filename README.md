@@ -49,12 +49,12 @@ For example: LogbackDefaultSanitizer defined as "sanitizedMessage"
 ##### Maven:
 ```xml
 <dependency>
-    <groupId>be.sysa</groupId>
+    <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-core</artifactId>
     <version>1.0.0</version>
 </dependency>
 <dependency>
-    <groupId>be.sysa</groupId>
+    <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-logback</artifactId>
     <version>1.0.0</version>
 </dependency>
@@ -102,12 +102,12 @@ public final class MyLog4j2Sanitizer implements RewritePolicy {
 ##### Maven:
 ```xml
 <dependency>
-    <groupId>be.sysa</groupId>
+    <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-core</artifactId>
     <version>1.0.0</version>
 </dependency>
 <dependency>
-    <groupId>be.sysa</groupId>
+    <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-log4j2</artifactId>
     <version>1.0.0</version>
 </dependency>
