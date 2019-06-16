@@ -6,11 +6,19 @@ import java.util.regex.Matcher;
 
 import static java.lang.System.arraycopy;
 
+/**
+ * Responsible for holding the log text as it is being sanitized. Implements
+ * CharSequence so that it can be used easily. It is mutable and not threadsafe.
+ */
 @Getter
 public class Buffer implements CharSequence {
     private char[] transformed;
     private String original;
 
+    /**
+     * Create a new Buffer from the original String. The original is kept.
+     * @param original the original String before sanitization.
+     */
     public Buffer(String original) {
         transformed = original.toCharArray();
         this.original = original;
@@ -35,18 +43,35 @@ public class Buffer implements CharSequence {
         return new String(transformed);
     }
 
+    /**
+     * Mask the non-whitespace character at this position by overwriting it with a '*' character.
+     * @param pos The zero-based position in the buffer.
+     */
     public void mask(int pos) {
         if (!Character.isWhitespace(transformed[pos])) {
             transformed[pos] = MessageSanitizer.MASK_CHARACTER;
         }
     }
 
+    /**
+     * Mask length characters from the start position. If any characters are whitespace they are not masked.
+     * @param start zero based start position.
+     * @param length Number of charactes to mask.
+     *
+     */
     public void mask(int start, int length) {
         for (int pos = start; pos < start + length; pos++) {
             mask(pos);
         }
     }
 
+    /**
+     * Intended to mask characters in the middle of a string while keeping some ath the start and some at the end.
+     * This is how credit card maksing typically works.
+     * @param matcher The regex matcher that has matched the string to mask.
+     * @param keepCharsStart The number of unmasked characters at the start of the string found by the matcher.
+     * @param keepCharsEnd The number of unmasked characters at the endo of the string found by the matcher.
+     */
     public void maskCharactersBetween(Matcher matcher, int keepCharsStart, int keepCharsEnd) {
         int pos1 = matcher.start();
         int pos2 = matcher.end() - 1;
@@ -72,20 +97,32 @@ public class Buffer implements CharSequence {
         }
     }
 
-    public void replaceAt(Matcher matchedGroup, String newJson) {
+    /**
+     * Sometimes a sanitizer produces a string that is bigger or smaller than the original: Json Parsing can often give this.
+     * This method writes the new string at the coorect place in the buffer and adjusts the characters.
+     * @param matchedGroup The group that this sanitizer matched. JSON for example is matched starting with { and
+     *                     ending with }
+     * @param newSanitizedString The string that resulted from the regex match that has been sanitized and needs to be
+     *                           injected back into teh buffer.
+     */
+    public void replaceAt(Matcher matchedGroup, String newSanitizedString) {
         int groupLength = matchedGroup.end() - matchedGroup.start();
-
-        int lengthChange = newJson.length() - groupLength;
+        int lengthChange = newSanitizedString.length() - groupLength;
 
         if (lengthChange == 0) {
-            arraycopy(newJson.toCharArray(), 0, transformed, matchedGroup.start(), groupLength);
+            arraycopy(newSanitizedString.toCharArray(), 0, transformed, matchedGroup.start(), groupLength);
         } else if (lengthChange > 0) {
-            injectNewJson(matchedGroup, newJson, lengthChange);
+            injectNewString(matchedGroup, newSanitizedString, lengthChange);
         } else {
-            injectNewJson(matchedGroup, newJson, lengthChange);
+            injectNewString(matchedGroup, newSanitizedString, lengthChange);
         }
     }
 
+    /**
+     * Check if a string is all characters.
+     * @param matcher
+     * @return
+     */
     public boolean isAllChars(Matcher matcher) {
         int pos1 = matcher.start();
         int pos2 = matcher.end();
@@ -105,7 +142,7 @@ public class Buffer implements CharSequence {
         return upperCase * 2 < lowerCase || lowerCase < 2;
     }
 
-    private void injectNewJson(Matcher matchedGroup, String newJson, int lengthChange) {
+    private void injectNewString(Matcher matchedGroup, String newJson, int lengthChange) {
         char[] newBuf = new char[transformed.length + lengthChange];
         arraycopy(transformed, 0, newBuf, 0, matchedGroup.start());
         arraycopy(newJson.toCharArray(), 0, newBuf, matchedGroup.start(), newJson.length());

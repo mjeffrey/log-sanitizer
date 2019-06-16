@@ -23,9 +23,13 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.StringUtils.*;
 
+/**
+ * All KnownSanitizers are defined in this
+ */
 public class MessageSanitizer {
 
-    public static final String SANITIZER_PROPERTY_NAME = Configuration.class.getName();
+    static final String SANITIZER_PROPERTY_NAME = Configuration.class.getName();
+    static final char MASK_CHARACTER = '*';
 
     private static final List<String> KEYWORDS = asList(
             "key",
@@ -33,7 +37,6 @@ public class MessageSanitizer {
             "passwd",
             "access_token"
     );
-    public static final char MASK_CHARACTER = '*';
 
     private List<? extends Sanitizer> sanitizers;
 
