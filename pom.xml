@@ -163,12 +163,10 @@
             <modules>
                 <module>log-sanitizer-core</module>
                 <module>log-sanitizer-logback</module>
-                <module>log-sanitizer-log4j2</module>
-                <module>log-sanitizer-log4j</module>
             </modules>
         </profile>
         <profile>
-            <id>jmh</id>
+            <id>all</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
