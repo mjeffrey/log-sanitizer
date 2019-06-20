@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer</artifactId>
-    <version>1.0.1-beta-SNAPSHOT-SNAPSHOT</version>
+    <version>1.0.1-beta</version>
     <packaging>pom</packaging>
 
     <name>log sanitizer for logback, log4j2 and log4j</name>
@@ -32,7 +31,7 @@
         <connection>scm:git:git://github.com/mjeffrey/log-sanitizer.git</connection>
         <developerConnection>scm:git:ssh://github.com:mjeffrey/log-sanitizer.git</developerConnection>
         <url>https://github.com/mjeffrey/log-sanitizer.git</url>
-        <tag>develop</tag>
+        <tag>1.0.1-beta</tag>
     </scm>
 
     <distributionManagement>
