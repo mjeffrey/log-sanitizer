@@ -12,6 +12,11 @@
         etc) before they are logged
     </description>
 
+    <modules>
+        <module>log-sanitizer-core</module>
+        <module>log-sanitizer-logback</module>
+    </modules>
+
     <url>https://github.com/mjeffrey/log-sanitizer</url>
     <licenses>
         <license>
@@ -154,29 +159,6 @@
         </dependency>
     </dependencies>
     <profiles>
-        <profile>
-            <id>nojhm</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>log-sanitizer-core</module>
-                <module>log-sanitizer-logback</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>all</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <modules>
-                <module>log-sanitizer-core</module>
-                <module>log-sanitizer-logback</module>
-                <module>log-sanitizer-log4j2</module>
-                <module>log-sanitizer-log4j</module>
-                <module>log-sanitizer-benchmark</module>
-            </modules>
-        </profile>
         <profile>
             <id>release-sign-artifacts</id>
             <activation>
