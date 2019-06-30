@@ -1,9 +1,5 @@
-package be.sysa.log.sanitize.logback;
+package be.sysa.log.sanitize;
 
-import be.sysa.log.sanitize.Buffer;
-import be.sysa.log.sanitize.MessageSanitizer;
-import be.sysa.log.sanitize.Sanitizer;
-import be.sysa.log.sanitize.SanitizerExample;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -15,7 +11,7 @@ import java.util.regex.Pattern;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class LogbackDefaultSanitizerTest {
+public class AllSanitizerTest {
 
     private SanitizerExample converter = new SanitizerExample();
     private String jsonRequest = "Body: {\"scope\":\n\"https://api.paypal.com/v1/payments\",\"nonce\":\"2018-11-28T12:30:02ZT6yacUJ33wpfNm5I92Hhf8QJiFrpUSXlih-kCj4oWg8\",\"access_token\":\"A21AAHFyA9umVi9GeohYPnL9OK3jkD63TrAWW1\",\"token_type\":\"Bearer\",\"app_id\":\"APP-4VX56799PM6XXXX\",\"expires_in\":\"32400\"} after body";
