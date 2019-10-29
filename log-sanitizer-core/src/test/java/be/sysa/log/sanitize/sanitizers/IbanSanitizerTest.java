@@ -1,13 +1,16 @@
-package be.sysa.log.sanitize;
+package be.sysa.log.sanitize.sanitizers;
 
+import be.sysa.log.sanitize.AbstractFileTest;
+import be.sysa.log.sanitize.Buffer;
+import be.sysa.log.sanitize.sanitizers.IbanSanitizer;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class IbanSanitizerTest extends AbstractFileTest{
+public class IbanSanitizerTest extends AbstractFileTest {
 
-    MessageSanitizer.IbanSanitizer sanitizer = new MessageSanitizer.IbanSanitizer();
+    IbanSanitizer sanitizer = new IbanSanitizer();
 
     @Test
     @Ignore // TODO support whitespace for IBANs in display format

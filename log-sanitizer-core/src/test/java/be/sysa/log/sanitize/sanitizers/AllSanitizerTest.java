@@ -1,5 +1,8 @@
-package be.sysa.log.sanitize;
+package be.sysa.log.sanitize.sanitizers;
 
+import be.sysa.log.sanitize.Buffer;
+import be.sysa.log.sanitize.Sanitizer;
+import be.sysa.log.sanitize.SanitizerExample;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -109,17 +112,17 @@ public class AllSanitizerTest {
     }
 
     private void assertBase64Replaced(String request, String expected) {
-        assertSanitizedIsEqualTo(new MessageSanitizer.Base64Sanitizer(), request, expected);
+        assertSanitizedIsEqualTo(new Base64Sanitizer(), request, expected);
     }
 
     private void assertUuidReplaced(String request, String expected) {
-        assertSanitizedIsEqualTo(new MessageSanitizer.UuidSanitizer(), request, expected);
+        assertSanitizedIsEqualTo(new UuidSanitizer(), request, expected);
     }
 
     private void assertPanReplaced(String request, String original, String replacement) {
         String expected = request.replace(original, replacement);
         assertThat(expected).isNotEqualTo(original);
-        assertSanitizedIsEqualTo(new MessageSanitizer.PanSanitizer(), request, expected);
+        assertSanitizedIsEqualTo(new PanSanitizer(), request, expected);
     }
 
     private void assertReplaced(String request, String original, String replacement) {
@@ -136,7 +139,7 @@ public class AllSanitizerTest {
         assertThat(expectedJson).isNotEqualTo(original);
 
 
-        MessageSanitizer.JsonSanitizer jsonSanitizer = new MessageSanitizer.JsonSanitizer();
+        JsonSanitizer jsonSanitizer = new JsonSanitizer();
         Buffer buffer = new Buffer(request);
         jsonSanitizer.sanitize(buffer);
 

@@ -1,5 +1,7 @@
-package be.sysa.log.sanitize;
+package be.sysa.log.sanitize.sanitizers;
 
+import be.sysa.log.sanitize.Buffer;
+import be.sysa.log.sanitize.sanitizers.ToStringSanitizer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class MapSanitizerTest {
 
-    private MessageSanitizer.ToStringSanitizer sanitizer = new MessageSanitizer.ToStringSanitizer();
+    private ToStringSanitizer sanitizer = new ToStringSanitizer();
     private HashMap<String, String> map;
 
     @Before

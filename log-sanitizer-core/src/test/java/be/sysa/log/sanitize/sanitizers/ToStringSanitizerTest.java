@@ -1,19 +1,19 @@
-package be.sysa.log.sanitize;
+package be.sysa.log.sanitize.sanitizers;
 
+import be.sysa.log.sanitize.Buffer;
+import be.sysa.log.sanitize.sanitizers.ToStringSanitizer;
 import lombok.ToString;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ToStringSanitizerTest {
 
-    private MessageSanitizer.ToStringSanitizer sanitizer = new MessageSanitizer.ToStringSanitizer();
+    private ToStringSanitizer sanitizer = new ToStringSanitizer();
     private MyClass myClass;
 
     @ToString

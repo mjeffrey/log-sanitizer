@@ -1,13 +1,11 @@
 package be.sysa.log.sanitize;
 
+import be.sysa.log.sanitize.sanitizers.*;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,11 +14,11 @@ public class SensitiveLogTest extends AbstractFileTest {
     public String maskSensitiveData(String string) {
         Buffer buffer = new Buffer(string);
 
-        new MessageSanitizer.JsonSanitizer().sanitize(buffer);
-        new MessageSanitizer.IbanSanitizer().sanitize(buffer);
-        new MessageSanitizer.PanSanitizer().sanitize(buffer);
-        new MessageSanitizer.UuidSanitizer().sanitize(buffer);
-        new MessageSanitizer.Base64Sanitizer().sanitize(buffer);
+        new JsonSanitizer().sanitize(buffer);
+        new IbanSanitizer().sanitize(buffer);
+        new PanSanitizer().sanitize(buffer);
+        new UuidSanitizer().sanitize(buffer);
+        new Base64Sanitizer().sanitize(buffer);
 
         return buffer.toString();
     }
@@ -42,7 +40,7 @@ public class SensitiveLogTest extends AbstractFileTest {
         assertThat(expected).isNotEqualTo(original);
 // TODO check that before JSON and after JSON are there.
         Buffer buffer = new Buffer(request);
-        new MessageSanitizer.JsonSanitizer().sanitize(buffer);
+        new JsonSanitizer().sanitize(buffer);
         JSONAssert.assertEquals(expected, extractJsonContent(buffer.toString()), JSONCompareMode.LENIENT);
 
     }
