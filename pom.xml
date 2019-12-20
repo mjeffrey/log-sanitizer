@@ -3,7 +3,7 @@
 
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer</artifactId>
-    <version>1.0.3-beta-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>log sanitizer for logback, log4j2 and log4j</name>
@@ -15,6 +15,7 @@
     <modules>
         <module>log-sanitizer-core</module>
         <module>log-sanitizer-logback</module>
+        <module>log-sanitizer-benchmark</module>
     </modules>
 
     <url>https://github.com/mjeffrey/log-sanitizer</url>

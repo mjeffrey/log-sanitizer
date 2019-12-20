@@ -6,11 +6,11 @@
     <parent>
         <groupId>be.sysa.log-sanitizer</groupId>
         <artifactId>log-sanitizer</artifactId>
-        <version>1.0.3-beta-SNAPSHOT-SNAPSHOT</version>
+        <version>1.0.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>log-sanitizer-benchmark</artifactId>
-    <version>1.0.3-beta-SNAPSHOT-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
 
     <dependencies>
         <dependency>

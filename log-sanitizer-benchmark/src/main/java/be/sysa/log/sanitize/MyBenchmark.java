@@ -1,6 +1,6 @@
 package be.sysa.log.sanitize;
 
-import be.sysa.log.sanitize.MessageSanitizer.*;
+import be.sysa.log.sanitize.sanitizers.*;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
