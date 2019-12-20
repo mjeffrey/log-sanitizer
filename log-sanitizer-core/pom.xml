@@ -4,11 +4,11 @@
     <parent>
         <groupId>be.sysa.log-sanitizer</groupId>
         <artifactId>log-sanitizer</artifactId>
-        <version>1.0.4-SNAPSHOT</version>
+        <version>1.0.4</version>
     </parent>
 
     <artifactId>log-sanitizer-core</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.4</version>
 
     <dependencies>
         <dependency>

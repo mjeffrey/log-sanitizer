@@ -4,7 +4,7 @@
 
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.4</version>
     <packaging>pom</packaging>
 
     <name>log sanitizer for logback, log4j2 and log4j</name>
