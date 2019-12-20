@@ -120,8 +120,8 @@ public class Buffer implements CharSequence {
 
     /**
      * Check if a string is all characters.
-     * @param matcher
-     * @return
+     * @param matcher The matcher looking for chars
+     * @return true if all chars
      */
     public boolean isAllChars(Matcher matcher) {
         int pos1 = matcher.start();

@@ -10,7 +10,7 @@ This library can never be perfect and is meant to be an addition to, **NOT** a r
 It supports logback. It will be expanded to log4j2 and log4j in future but these are not yet tested. 
 
 ## Status
-Currently alpha, more automated testing needed. Not recommended for production yet.
+Currently being tested in limited production environments. Not yet recommended for general production.
 
 ## Getting Started
 
