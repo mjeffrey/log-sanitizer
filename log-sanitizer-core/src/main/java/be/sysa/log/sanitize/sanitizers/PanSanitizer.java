@@ -9,6 +9,10 @@ import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
 
+/**
+ * Looks for strings that could be a PAN (= Primary Account Number) (= Credit/Debit Card number) based on a regex.
+ *
+ */
 public class PanSanitizer extends MessageSanitizer.StringSanitizer {
     private static final List<Pattern> patterns = MessageSanitizer.compilePatterns(asList(
             "[0-9][0-9 ]{11,17}[0-9]"
