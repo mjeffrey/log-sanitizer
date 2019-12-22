@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+    <appender name="SanitizedFile" class="org.apache.log4j.ConsoleAppender">
+        <!--<param name="file" value="temp"/>-->
+        <!--<param name="append" value="false"/>-->
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="Rewriter" class="org.apache.log4j.rewrite.RewriteAppender">
+        <appender-ref ref="SanitizedFile"/>
+        <rewritePolicy class="be.sysa.log.sanitize.Log4jDefaultSanitizer"/>
+    </appender>
+
+    <root>
+        <level value="debug"/>
+        <appender-ref ref="Rewriter"/>
+    </root>
+
+</log4j:configuration>

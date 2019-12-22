@@ -1,0 +1,10 @@
+dependency-check
+
+Copyright (c) 2019- Mark Jeffrey. All Rights Reserved.
+
+The licenses for the software listed below can be found in the META-INF/licenses/[dependency name].
+
+This product includes software developed by The Apache Software Foundation (http://www.apache.org/).
+
+This product includes software from Jackson Foundation (https://github.com/FasterXML/jackson).
+
