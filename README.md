@@ -44,28 +44,43 @@ For example: LogbackDefaultSanitizer defined as "sanitizedMessage"
 ...
     <pattern>%-4relative [%thread] %-5level %logger{35} - %sanitizedMessage %n</pattern>
 ```
+## Performance
+The will be a perfromance penalty using the Sanitizers. It is up to you to determine if you are willing to accept the penalty.
+You do not need to use all sanitizers.
 
+This is the output from `jmh` which is used to do the microbenchmarks.
+It is from an old iMac I7 from 2009. Units are operations per second.
+``` 
+Benchmark                  Mode  Cnt       Score   Error  Units
+MyBenchmark.testBase64    thrpt    2   21359.898          ops/s
+MyBenchmark.testIban      thrpt    2   89887.605          ops/s
+MyBenchmark.testJson      thrpt    2   74777.634          ops/s
+MyBenchmark.testPan       thrpt    2  125183.180          ops/s
+MyBenchmark.testToString  thrpt    2   28615.992          ops/s
+MyBenchmark.testUuid      thrpt    2  153878.500          ops/s
+``` 
+### Using the libraries with logback 
 
 ##### Maven:
 ```xml
 <dependency>
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-core</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 </dependency>
 <dependency>
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-logback</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 </dependency>
 ```
 ##### Gradle:
 ```gradle
-compile group: 'be.sysa', name: 'log-sanitizer-core', version: '1.0.4'
-compile group: 'be.sysa', name: 'log-sanitizer-logback', version: '1.0.4'
+compile group: 'be.sysa', name: 'log-sanitizer-core', version: '1.0.5'
+compile group: 'be.sysa', name: 'log-sanitizer-logback', version: '1.0.5'
 ```
 
-## Log4J2 (works but not fully tested)
+## Log4J2 (works but not fully tested and not yet released to maven central)
 
 Log4j2 implements a rewrite appender that is able to delegate to a real appender. In the example below we are delegating to console but typically it would be to a file appender.
 Within the rewrite appender the <MySanitizer/> element corresponds to the name attribute of a @org.apache.logging.log4j.core.config.plugins.Plugin annotation.
@@ -104,19 +119,27 @@ public final class MyLog4j2Sanitizer implements RewritePolicy {
 <dependency>
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-core</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 </dependency>
 <dependency>
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-log4j2</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 </dependency>
 ```
 ##### Gradle:
 ```gradle
-compile group: 'be.sysa', name: 'log-sanitizer-core', version: '1.0.4'
-compile group: 'be.sysa', name: 'log-sanitizer-log4j2', version: '1.0.4'
+compile group: 'be.sysa', name: 'log-sanitizer-core', version: '1.0.5'
+compile group: 'be.sysa', name: 'log-sanitizer-log4j2', version: '1.0.5'
 ```
+
+# Additional ways to avoid logging secrets
+TODO Add explanations of:
+* toString methods (including lombok @Data @Value, @ToString)
+* Annotating secret data
+* Verifying secret data is not part of toString
+* preventing ssl logging in production
+* avoiding debug in production
 
 # Development
 

@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.StringUtils.*;
 
 /**
- * All KnownSanitizers are defined in this
+ * All KnownSanitizers are defined in this class. It also defines the keywords used by various sanitizers.
  */
 public class MessageSanitizer {
 
@@ -29,7 +29,8 @@ public class MessageSanitizer {
             "key",
             "password",
             "passwd",
-            "access_token"
+            "access_token",
+            "pan"
     );
 
     private List<? extends Sanitizer> sanitizers;

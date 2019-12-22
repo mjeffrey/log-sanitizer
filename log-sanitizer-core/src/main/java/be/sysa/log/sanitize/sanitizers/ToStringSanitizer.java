@@ -14,6 +14,11 @@ import static java.util.regex.Pattern.DOTALL;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.apache.commons.lang3.StringUtils.rightPad;
 
+/**
+ * A matcher for the result of a generated toString() method which generates name, value pairs (it also covers toString() of Maps which is similar)
+ * It covers lombok @ToString, Intellij toString() and apache commons ToStringBuilder formats.
+ * The keyword list is used to identify potential secrets.
+ */
 public class ToStringSanitizer extends MessageSanitizer.StringSanitizer {
     private static final int MIN_MAP_STRING_LENGTH = 12;
     private static final List<Pattern> patterns = asList(Pattern.compile("(\\(.+\\))", DOTALL),  Pattern.compile("(\\{.+\\})", DOTALL), Pattern.compile("(\\[.+\\])", DOTALL));
