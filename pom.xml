@@ -110,7 +110,7 @@
         <jsonassert.version>1.5.0</jsonassert.version>
         <junit.version>4.12</junit.version>
 
-        <log4j2.version>2.13.0</log4j2.version>
+        <log4j2.version>2.13.3</log4j2.version>
         <log4j.version>1.2.17</log4j.version>
         <logback.version>1.2.3</logback.version>
         <lombok.version>1.18.10</lombok.version>
