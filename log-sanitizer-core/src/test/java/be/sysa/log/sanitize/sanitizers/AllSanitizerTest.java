@@ -4,7 +4,7 @@ import be.sysa.log.sanitize.Buffer;
 import be.sysa.log.sanitize.Sanitizer;
 import be.sysa.log.sanitize.SanitizerExample;
 import lombok.SneakyThrows;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 

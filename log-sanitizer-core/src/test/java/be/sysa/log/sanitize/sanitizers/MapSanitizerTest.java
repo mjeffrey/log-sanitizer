@@ -1,9 +1,8 @@
 package be.sysa.log.sanitize.sanitizers;
 
 import be.sysa.log.sanitize.Buffer;
-import be.sysa.log.sanitize.sanitizers.ToStringSanitizer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -16,7 +15,7 @@ public class MapSanitizerTest {
     private ToStringSanitizer sanitizer = new ToStringSanitizer();
     private HashMap<String, String> map;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         map = new LinkedHashMap<>();
         map.put("username", "myuser");

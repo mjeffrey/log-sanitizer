@@ -11,11 +11,11 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
-import static java.util.Arrays.stream;
 import static java.util.Collections.unmodifiableList;
+import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static org.apache.commons.lang3.StringUtils.*;
+import static org.apache.commons.lang3.StringUtils.lowerCase;
 
 /**
  * All KnownSanitizers are defined in this class. It also defines the keywords used by various sanitizers.
@@ -35,10 +35,10 @@ public class MessageSanitizer {
 
     private List<? extends Sanitizer> sanitizers;
 
-
     public static MessageSanitizer of(Sanitizer... sanitizers) {
         return new MessageSanitizer(asList(sanitizers));
     }
+
     public static MessageSanitizer all() {
         return MessageSanitizer.of(knownSanitizers().values());
     }
@@ -53,13 +53,26 @@ public class MessageSanitizer {
 
     public static Map<String, Sanitizer> knownSanitizers() {
         return Stream.of(
-                new JsonSanitizer(),
-                new IbanSanitizer(),
-                new PanSanitizer(),
+                new JwtSanitizer(),
                 new UuidSanitizer(),
+                new IbanSanitizer(),
+                new JsonSanitizer(),
+                new PanSanitizer(),
                 new Base64Sanitizer(),
                 new ToStringSanitizer())
-                .collect(toMap(StringSanitizer::id, Function.identity()));
+                .collect(toMap(StringSanitizer::id, identity()));
+    }
+
+    public static Map<String, Sanitizer> recommendedSanitizers() {
+        return Stream.of(
+                new JwtSanitizer(),
+                new UuidSanitizer(true),
+                new IbanSanitizer(true),
+                new JsonSanitizer(),
+                new PanSanitizer(),
+                new ToStringSanitizer(),
+                new Base64Sanitizer())
+                .collect(toMap(StringSanitizer::id, identity()));
     }
 
     public static List<Pattern> compilePatterns(List<String> ibanPatterns) {
@@ -89,8 +102,6 @@ public class MessageSanitizer {
             return KEYWORDS.stream()
                     .anyMatch(lowerCase(fieldName)::contains);
         }
-
     }
-
 
 }

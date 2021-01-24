@@ -1,5 +1,6 @@
 package be.sysa.log.sanitize.sanitizers;
 
+import be.sysa.log.sanitize.Bounds;
 import be.sysa.log.sanitize.Buffer;
 import be.sysa.log.sanitize.MessageSanitizer;
 
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 /**
  * Matches things that look like base64 since it may be encoded secrets (or access tokens).
@@ -15,7 +16,7 @@ import static java.util.Arrays.asList;
  */
 public class Base64Sanitizer extends MessageSanitizer.StringSanitizer {
 
-    private static final List<Pattern> patterns = MessageSanitizer.compilePatterns(asList(
+    private static final List<Pattern> patterns = MessageSanitizer.compilePatterns(singletonList(
             "[\\p{Alnum}+/\\n\\r]{9,}"
     ));
     public static final int BASE64_STRING_MIN_LENGTH = 8;
@@ -26,8 +27,8 @@ public class Base64Sanitizer extends MessageSanitizer.StringSanitizer {
     }
 
     /**
-     * Minimum length of string to match to consider as bas64. Make higher to reduce false positives.
-     * @param minLength
+     * Minimum length of string to match to consider as base64. Make higher to reduce false positives.
+     * @param minLength minimum length before we match base64
      */
     public Base64Sanitizer(int minLength) {
         this.minLength = minLength;
@@ -42,10 +43,11 @@ public class Base64Sanitizer extends MessageSanitizer.StringSanitizer {
         Matcher matcher = pattern.matcher(buffer.toString());
 
         while (matcher.find()) {
-            int start = matcher.start();
-            int length = matcher.end() - start;
+            final Bounds bounds = new Bounds(matcher);
+            int start = bounds.start();
+            int length = bounds.length();
 
-            if (length >= minLength && !buffer.isAllChars(matcher)) {
+            if (length >= minLength && !buffer.isAllChars(bounds)) {
                 int middleLength = (length / 3) + 1;
                 buffer.mask(start + middleLength, middleLength);
             }

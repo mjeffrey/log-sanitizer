@@ -103,18 +103,19 @@
         <javac.target>1.8</javac.target>
         <minimum-maven.version>3.6.0</minimum-maven.version>
 
-        <assertj-core.version>3.14.0</assertj-core.version>
-        <commons-lang3.version>3.9</commons-lang3.version>
-        <jackson.version>2.10.1</jackson.version>
-        <jmh.version>1.22</jmh.version>
+        <assertj-core.version>3.18.1</assertj-core.version>
+        <commons-lang3.version>3.11</commons-lang3.version>
+        <jackson.version>2.12.1</jackson.version>
+        <jmh.version>1.27</jmh.version>
         <jsonassert.version>1.5.0</jsonassert.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>5.7.0</junit.version>
 
-        <log4j2.version>2.13.0</log4j2.version>
+        <log4j2.version>2.14.0</log4j2.version>
         <log4j.version>1.2.17</log4j.version>
         <logback.version>1.2.3</logback.version>
-        <lombok.version>1.18.10</lombok.version>
+        <lombok.version>1.18.16</lombok.version>
 
+        <nimbus-jose-jwt.version>9.4.1</nimbus-jose-jwt.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -127,6 +128,7 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>${jackson.version}</version>
+                <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -149,6 +151,7 @@
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
                 <version>${log4j.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
@@ -160,15 +163,20 @@
                 <groupId>org.openjdk.jmh</groupId>
                 <artifactId>jmh-core</artifactId>
                 <version>${jmh.version}</version>
+                <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>org.openjdk.jmh</groupId>
                 <artifactId>jmh-generator-annprocess</artifactId>
                 <version>${jmh.version}</version>
-                <scope>provided</scope>
+                <optional>true</optional>
             </dependency>
-
-
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbus-jose-jwt.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>
@@ -193,12 +201,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
@@ -208,6 +210,13 @@
             <groupId>org.skyscreamer</groupId>
             <artifactId>jsonassert</artifactId>
             <version>${jsonassert.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -277,6 +286,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -367,7 +379,14 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M3</version>
+                    <version>3.0.0-M5</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.junit.jupiter</groupId>
+                            <artifactId>junit-jupiter-engine</artifactId>
+                            <version>${junit.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
 
                 <plugin>

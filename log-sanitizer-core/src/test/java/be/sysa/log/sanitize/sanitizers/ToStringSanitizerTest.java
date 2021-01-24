@@ -1,11 +1,10 @@
 package be.sysa.log.sanitize.sanitizers;
 
 import be.sysa.log.sanitize.Buffer;
-import be.sysa.log.sanitize.sanitizers.ToStringSanitizer;
 import lombok.ToString;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
 
@@ -36,7 +35,7 @@ public class ToStringSanitizerTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         myClass = new MyClass();
     }

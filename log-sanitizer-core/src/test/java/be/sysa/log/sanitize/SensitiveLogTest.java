@@ -3,7 +3,7 @@ package be.sysa.log.sanitize;
 import be.sysa.log.sanitize.sanitizers.*;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 

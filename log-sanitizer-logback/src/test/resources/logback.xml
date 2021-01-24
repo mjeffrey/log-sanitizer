@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <conversionRule conversionWord="msgx" converterClass="be.sysa.log.sanitize.logback.LogbackDefaultSanitizer" />
+    <conversionRule conversionWord="msg" converterClass="be.sysa.log.sanitize.logback.LogbackDefaultSanitizer" />
+    <conversionRule conversionWord="ex" converterClass="be.sysa.log.sanitize.logback.ExceptionSanitizer" />
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-4relative [%thread] %-5level %logger{35} - %msgx %n</pattern>
+<!--            <pattern>%-4relative [%thread] %-5level %logger{35} - %msgx %n</pattern>-->
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n%ex{1000000,
+                com.sun.proxy.,
+                java.lang.reflect.,
+                javax.servlet.,
+                org.springframework.cglib.,
+                org.springframework.aop.,
+                org.springframework.transaction.interceptor.TransactionAspectSupport.,
+                org.springframework.validation.beanvalidation.MethodValidationInterceptor.,
+                org.springframework.boot.actuate.web.trace.,
+                org.springframework.security.web.,
+                org.springframework.boot.actuate.,
+                org.springframework.web.servlet.,
+                org.springframework.web.method.,
+                org.springframework.web.filter.,
+                org.apache.coyote.,
+                org.apache.catalina.,
+                org.apache.tomcat.,
+                sun.reflect.}
+            </pattern>
         </encoder>
     </appender>
 
@@ -11,3 +31,4 @@
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
+
