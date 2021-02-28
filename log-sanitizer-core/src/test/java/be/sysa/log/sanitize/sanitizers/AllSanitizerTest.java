@@ -8,9 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,21 +23,9 @@ public class AllSanitizerTest {
         assertThat(converter.maskSensitiveData("json=")).isEqualTo("json=");
     }
 
-    @Test
-    public void name() {
-        Pattern pattern = Pattern.compile("\\d{15,19}");
-        Matcher matcher = pattern.matcher("12345678901234567890234521234567890123456789023452");
-        int count = 0;
-        while (matcher.find()) {
-            count++;
-            System.out.println("found: " + count + " : "
-                    + matcher.start() + " - " + matcher.end());
-        }
-    }
-
-    @Test
+  @Test
     public void maskIban() {
-        assertReplaced("some data 'BE15123456789012' other data ", "BE15123456789012", "BE15********9012");
+        assertReplaced("some data 'BE15123456789012' other data ", "BE15123456789012", "BE1512******9012");
     }
 
     @Test

@@ -1,16 +1,13 @@
 package be.sysa.log.sanitize.logback;
 
 import be.sysa.log.sanitize.MessageSanitizer;
-import be.sysa.log.sanitize.sanitizers.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Sanitizer {
     static MessageSanitizer messageSanitizer = MessageSanitizer.of(
-            new JsonSanitizer(),
-            new IbanSanitizer(),
-            new PanSanitizer(),
-            new UuidSanitizer(),
-            new ToStringSanitizer()
+            MessageSanitizer.recommendedSanitizers().values()
     );
-
 
 }

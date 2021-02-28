@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -70,8 +69,8 @@ public class MessageSanitizer {
                 new IbanSanitizer(true),
                 new JsonSanitizer(),
                 new PanSanitizer(),
-                new ToStringSanitizer(),
-                new Base64Sanitizer())
+                new Base64Sanitizer(12),
+                new ToStringSanitizer())
                 .collect(toMap(StringSanitizer::id, identity()));
     }
 

@@ -13,6 +13,8 @@ import static java.lang.System.arraycopy;
 public class Buffer implements CharSequence {
     @Getter
     private final String original;
+
+    @Getter
     private char[] transformed;
     private final BitSet protectedRegions;
 

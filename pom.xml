@@ -116,6 +116,7 @@
         <lombok.version>1.18.16</lombok.version>
 
         <nimbus-jose-jwt.version>9.4.1</nimbus-jose-jwt.version>
+        <iban4j.version>3.2.2-RELEASE</iban4j.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -151,6 +152,12 @@
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
                 <version>${log4j.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.iban4j</groupId>
+                <artifactId>iban4j</artifactId>
+                <version>${iban4j.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -212,10 +219,15 @@
             <version>${jsonassert.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>

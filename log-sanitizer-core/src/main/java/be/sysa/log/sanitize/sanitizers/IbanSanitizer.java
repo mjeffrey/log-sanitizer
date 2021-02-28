@@ -3,8 +3,9 @@ package be.sysa.log.sanitize.sanitizers;
 import be.sysa.log.sanitize.Bounds;
 import be.sysa.log.sanitize.Buffer;
 import be.sysa.log.sanitize.MessageSanitizer;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.extern.java.Log;
+import org.iban4j.IbanUtil;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,14 +19,19 @@ import static java.util.Collections.singletonList;
  * IBAN into groups of max 4 characters and is not (yet) identified.
  */
 @NoArgsConstructor
-@AllArgsConstructor
+@Log
 public class IbanSanitizer extends PanSanitizer {
     private boolean matchOnlyOnce;
+    private volatile Boolean ibanValidator;
     private static final List<Pattern> patterns = MessageSanitizer.compilePatterns(singletonList(
             "[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"
     ));
 
-    public static IbanSanitizer protect(){
+    public IbanSanitizer(boolean matchOnlyOnce) {
+        this.matchOnlyOnce = matchOnlyOnce;
+    }
+
+    public static IbanSanitizer protect() {
         return new IbanSanitizer(true);
     }
 
@@ -35,15 +41,31 @@ public class IbanSanitizer extends PanSanitizer {
     }
 
     void maskIban(Buffer buffer, Pattern pattern) {
-        // TODO check if this is a real IBAN (mod 97 check, length based on country etc)
         Matcher matcher = pattern.matcher(buffer.toString());
         while (matcher.find()) {
-            if (matchOnlyOnce){
-                buffer.protect(new Bounds(matcher));
-            }else{
-                buffer.maskCharactersBetween(new Bounds(matcher), 4, 4);
+            if (isMatched(matcher.group())) {
+                if (matchOnlyOnce) {
+                    buffer.protect(new Bounds(matcher));
+                } else {
+                    buffer.maskCharactersBetween(new Bounds(matcher), 4, 4);
+                }
             }
         }
+    }
+
+    private boolean isMatched(String iban) {
+        if (ibanValidator == null || ibanValidator == Boolean.TRUE) {
+            try {
+                IbanUtil.validate(iban);
+            } catch (NoClassDefFoundError cnf) {
+                ibanValidator = Boolean.FALSE;
+                log.warning("Could not load iban4j class, so we may match things that are not valid IBANs");
+                return true;
+            } catch (RuntimeException e) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
