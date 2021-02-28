@@ -1,5 +1,6 @@
 package be.sysa.log.sanitize.sanitizers;
 
+import be.sysa.log.sanitize.Bounds;
 import be.sysa.log.sanitize.Buffer;
 import be.sysa.log.sanitize.MessageSanitizer;
 import lombok.SneakyThrows;
@@ -12,7 +13,6 @@ import java.util.regex.Pattern;
 import static java.util.Arrays.asList;
 import static java.util.regex.Pattern.DOTALL;
 import static org.apache.commons.lang3.StringUtils.*;
-import static org.apache.commons.lang3.StringUtils.rightPad;
 
 /**
  * A matcher for the result of a generated toString() method which generates name, value pairs (it also covers toString() of Maps which is similar)
@@ -30,7 +30,7 @@ public class ToStringSanitizer extends MessageSanitizer.StringSanitizer {
                 String group = matcher.group();
                 if (group.length() > MIN_MAP_STRING_LENGTH) {
                     String newMapString = filterMapStringFields(substring(group, 1, group.length()-1));
-                    buffer.replaceAt(matcher, left(group,1) + newMapString + right(group,1));
+                    buffer.replaceAt(new Bounds(matcher), left(group,1) + newMapString + right(group,1));
                 }
             }
         }

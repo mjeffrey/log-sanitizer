@@ -1,5 +1,6 @@
 package be.sysa.log.sanitize.sanitizers;
 
+import be.sysa.log.sanitize.Bounds;
 import be.sysa.log.sanitize.Buffer;
 import be.sysa.log.sanitize.MessageSanitizer;
 import com.fasterxml.jackson.core.*;
@@ -12,12 +13,12 @@ import java.util.regex.Pattern;
 import static java.util.regex.Pattern.DOTALL;
 
 /**
- * Looks for keywords in JSON keys {@link MessageSanitizer.StringSanitizer#matchesKeyWord(String)}  
+ * Looks for keywords in JSON keys {@link MessageSanitizer.StringSanitizer#matchesKeyWord(String)}
  *
  */
 public class JsonSanitizer extends MessageSanitizer.StringSanitizer {
     private static final int MIN_JSON_LENGTH = 15;
-    private static final Pattern json = Pattern.compile("\\{.+\\}", DOTALL);
+    private static final Pattern json = Pattern.compile("\\{.+}", DOTALL);
 
     @Override
     public void sanitize(Buffer buffer) {
@@ -26,7 +27,7 @@ public class JsonSanitizer extends MessageSanitizer.StringSanitizer {
             String group = matcher.group();
             if (group.length() > MIN_JSON_LENGTH) {
                 String newJson = filterJson(group);
-                buffer.replaceAt(matcher, newJson);
+                buffer.replaceAt(new Bounds(matcher), newJson);
             }
         }
     }

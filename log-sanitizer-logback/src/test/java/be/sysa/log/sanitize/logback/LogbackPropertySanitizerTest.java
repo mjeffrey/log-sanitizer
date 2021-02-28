@@ -1,20 +1,11 @@
 package be.sysa.log.sanitize.logback;
 
-import be.sysa.log.sanitize.Buffer;
-import be.sysa.log.sanitize.MessageSanitizer;
-import be.sysa.log.sanitize.Sanitizer;
 import be.sysa.log.sanitize.SanitizerExample;
-import lombok.SneakyThrows;
-import org.junit.Before;
-import org.junit.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static org.apache.commons.lang3.StringUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LogbackPropertySanitizerTest {
@@ -22,7 +13,7 @@ public class LogbackPropertySanitizerTest {
     private SanitizerExample converter = new SanitizerExample();
     private HashMap<String, String> map;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         map = new HashMap<>();
         map.put("username", "myuser");
