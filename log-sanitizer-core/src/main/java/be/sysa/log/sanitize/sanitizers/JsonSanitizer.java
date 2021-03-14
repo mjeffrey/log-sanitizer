@@ -13,21 +13,25 @@ import java.util.regex.Pattern;
 import static java.util.regex.Pattern.DOTALL;
 
 /**
- * Looks for keywords in JSON keys {@link MessageSanitizer.StringSanitizer#matchesKeyWord(String)}
+ * Looks for keywords in JSON keys {@link AbstractStringSanitizer#matchesKeyWord(String)}
  *
  */
-public class JsonSanitizer extends MessageSanitizer.StringSanitizer {
+public class JsonSanitizer extends AbstractStringSanitizer {
     private static final int MIN_JSON_LENGTH = 15;
     private static final Pattern json = Pattern.compile("\\{.+}", DOTALL);
 
     @Override
-    public void sanitize(Buffer buffer) {
+    public void process(Buffer buffer, boolean mask) {
         Matcher matcher = json.matcher(buffer);
         if (matcher.find()) {
             String group = matcher.group();
             if (group.length() > MIN_JSON_LENGTH) {
-                String newJson = filterJson(group);
-                buffer.replaceAt(new Bounds(matcher), newJson);
+                Bounds bounds = new Bounds(matcher);
+                if ( mask){
+                    String newJson = filterJson(group);
+                    buffer.replaceAt(bounds, newJson);
+                }
+                buffer.protect(bounds);
             }
         }
     }

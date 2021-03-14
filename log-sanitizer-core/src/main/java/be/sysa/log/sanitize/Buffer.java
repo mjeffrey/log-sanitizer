@@ -94,11 +94,6 @@ public class Buffer implements CharSequence {
 
     }
 
-    private int getMaximumWritablePosition(int start, int end) {
-        final int protectedStartRegion = protectedRegions.nextSetBit(start);
-        return protectedStartRegion < 0 ? end: protectedStartRegion;
-    }
-
     /**
      * Protect these characters from other sanitizers.
      *
@@ -113,7 +108,7 @@ public class Buffer implements CharSequence {
     }
 
     /**
-     * Intended to mask characters in the middle of a string while keeping some ath the start and some at the end.
+     * Intended to mask characters in the middle of a string while keeping some at the start and some at the end.
      * This is how credit card masking typically works.
      *
      * @param bounds        The regex bounds that has matched the string to mask.
@@ -162,12 +157,13 @@ public class Buffer implements CharSequence {
     }
 
     /**
-     * Check if a string is all characters.
+     * Check if a string is all characters and looks like normal text (no numbers not all uppercase).
+     * It is not definitive but can be useful to prevent false positives (in base64 for example)
      *
      * @param bounds The bounds of the matcher that found the chars
      * @return true if all are alpha characters
      */
-    public boolean isAllChars(Bounds bounds) { //TODO review naming
+    public boolean looksLikeText(Bounds bounds) { //TODO review naming
         int pos1 = bounds.start();
         int pos2 = bounds.end();
         int upperCase = 0;
@@ -185,5 +181,12 @@ public class Buffer implements CharSequence {
         }
         return upperCase * 2 < lowerCase || lowerCase < 2;
     }
+
+    private int getMaximumWritablePosition(int start, int end) {
+        final int protectedStartRegion = protectedRegions.nextSetBit(start);
+        return protectedStartRegion < 0 ? end: protectedStartRegion;
+    }
+
+
 
 }

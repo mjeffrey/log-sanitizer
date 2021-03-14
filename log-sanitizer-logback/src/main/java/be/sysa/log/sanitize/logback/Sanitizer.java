@@ -6,8 +6,5 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Sanitizer {
-    static MessageSanitizer messageSanitizer = MessageSanitizer.of(
-            MessageSanitizer.recommendedSanitizers().values()
-    );
-
+    static MessageSanitizer messageSanitizer = MessageSanitizer.recommended();
 }

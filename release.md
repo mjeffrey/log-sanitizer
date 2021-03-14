@@ -1,8 +1,11 @@
 ## Release Instructions (don't use release plugin and bypass staging repo)
 
+
+Check readme.sh
+
 ``` bash
-release_version=1.0.5
-new_version=1.0.6
+release_version=1.0.6
+new_version=2.0.0
 
 ./mvnw versions:set -DnewVersion=${release_version}
 ./mvnw clean deploy -P release-sign-artifacts

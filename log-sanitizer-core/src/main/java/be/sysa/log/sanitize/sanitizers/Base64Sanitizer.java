@@ -14,7 +14,7 @@ import static java.util.Collections.singletonList;
  * Matches things that look like base64 since it may be encoded secrets (or access tokens).
  * Tends to match a lot since base64 characters are common.
  */
-public class Base64Sanitizer extends MessageSanitizer.StringSanitizer {
+public class Base64Sanitizer extends AbstractStringSanitizer {
 
     private static final List<Pattern> patterns = MessageSanitizer.compilePatterns(singletonList(
             "[\\p{Alnum}+/\\n\\r]{9,}"
@@ -35,22 +35,25 @@ public class Base64Sanitizer extends MessageSanitizer.StringSanitizer {
     }
 
     @Override
-    public void sanitize(Buffer buffer) {
-        patterns.forEach(pattern -> maskMiddle(buffer, pattern));
+    public void process(Buffer buffer, boolean mask) {
+        patterns.forEach(pattern -> maskMiddle(buffer, pattern, mask));
     }
 
-    private void maskMiddle(Buffer buffer, Pattern pattern) {
+    private void maskMiddle(Buffer buffer, Pattern pattern, boolean mask) {
         Matcher matcher = pattern.matcher(buffer.toString());
 
         while (matcher.find()) {
             final Bounds bounds = new Bounds(matcher);
-            int start = bounds.start();
-            int length = bounds.length();
+            if (mask) {
+                int start = bounds.start();
+                int length = bounds.length();
 
-            if (length >= minLength && !buffer.isAllChars(bounds)) {
-                int middleLength = (length / 3) + 1;
-                buffer.mask(start + middleLength, middleLength);
+                if (length >= minLength && !buffer.looksLikeText(bounds)) {
+                    int middleLength = (length / 3) + 1;
+                    buffer.mask(start + middleLength, middleLength);
+                }
             }
+            buffer.protect(bounds);
         }
     }
     @Override

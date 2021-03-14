@@ -10,7 +10,7 @@ This library can never be perfect and is meant to be an addition to, **NOT** a r
 It supports logback. It will be expanded to log4j2 and log4j in future but these are not yet tested. 
 
 ## Status
-Currently being tested in limited production environments. Not yet recommended for general production.
+Currently running in production environments. 
 
 ## Getting Started
 
@@ -26,7 +26,6 @@ There are few dependencies and they are only needed at runtime. The library plug
 
 * log-sanitizer-core depends on Jackson 2.9 for JSON parsing. If you use the JSON sanitizer you need to make sure that Jackson 2.9.X is available in the classpath.
 * commons-lang3 is needed for most most sanitizers.
-* [log4j]:  runtime dependency with log-sanitizer-log4j 
 * [log4j2]:  runtime dependency with log-sanitizer-log4j2 
 * [logback]: runtime dependency with log-sanitizer-logback 
 
@@ -66,12 +65,12 @@ MyBenchmark.testUuid      thrpt    2  153878.500          ops/s
 <dependency>
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-core</artifactId>
-    <version>1.0.5</version>
+    <version>2.0.0</version>
 </dependency>
 <dependency>
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-logback</artifactId>
-    <version>1.0.5</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 ##### Gradle:
@@ -119,27 +118,28 @@ public final class MyLog4j2Sanitizer implements RewritePolicy {
 <dependency>
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-core</artifactId>
-    <version>1.0.5</version>
+    <version>2.0.0</version>
 </dependency>
 <dependency>
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-log4j2</artifactId>
-    <version>1.0.5</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 ##### Gradle:
 ```gradle
-compile group: 'be.sysa', name: 'log-sanitizer-core', version: '1.0.5'
-compile group: 'be.sysa', name: 'log-sanitizer-log4j2', version: '1.0.5'
+compile group: 'be.sysa', name: 'log-sanitizer-core', version: '2.0.0'
+compile group: 'be.sysa', name: 'log-sanitizer-log4j2', version: '2.0.0'
 ```
 
 # Additional ways to avoid logging secrets
-TODO Add explanations of:
-* toString methods (including lombok @Data @Value, @ToString)
-* Annotating secret data
-* Verifying secret data is not part of toString
-* preventing ssl logging in production
-* avoiding debug in production
+* toString methods (including lombok @Data @Value, @ToString) can leak data. Always create a toString method with @Override and label 
+  the excluded data as <hidden> or another label. 
+* Annotating secret data can highlight to reviewers/maintainers that there is secret data (and so should not be logged)
+* Verifying secret data is not part of toString. Unit tests (perhaps scanning and constructing objects dynamically) are best for this.
+* preventing ssl logging in production: Consider checking if "javax.net.debug" is set (in production) and if so fail startup.
+* avoiding debug in production: Debug should be off in production. With debug many more toString methods are called (perhaps in thirdparty libs) 
+  and sensitive data can be logged.
 
 # Development
 
@@ -152,7 +152,7 @@ TODO Add explanations of:
 ./mvnw clean verify
 
 ## Caveats and Limitations
-Testing is quite limited so far. It will be tested on real systems soon and integration tests with the logging systems themselves will be introduced. 
+The Logback sanitizer Has been used in production in a PCI-DSS compliant system for almost 1 year. 
 
 ## Contributing
 

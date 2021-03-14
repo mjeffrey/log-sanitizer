@@ -14,20 +14,24 @@ import static java.util.Collections.singletonList;
  * Looks for strings that could be a PAN (= Primary Account Number) (= Credit/Debit Card number) based on a regex.
  *
  */
-public class PanSanitizer extends MessageSanitizer.StringSanitizer {
+public class PanSanitizer extends AbstractStringSanitizer {
     private static final List<Pattern> patterns = MessageSanitizer.compilePatterns(singletonList(
             "[0-9][0-9 ]{11,17}[0-9]"
     ));
 
     @Override
-    public void sanitize(Buffer buffer) {
-        patterns.forEach(pattern -> maskPan(buffer, pattern));
+    public void process(Buffer buffer, boolean mask) {
+        patterns.forEach(pattern -> maskPan(buffer, pattern, mask));
     }
 
-    void maskPan(Buffer buffer, Pattern pattern) {
+    void maskPan(Buffer buffer, Pattern pattern, boolean mask) {
         Matcher matcher = pattern.matcher(buffer.toString());
         while (matcher.find()) {
-            buffer.maskCharactersBetween(new Bounds(matcher), 4, 4);
+            Bounds bounds = new Bounds(matcher);
+            if ( mask ){
+                buffer.maskCharactersBetween(bounds, 4, 4);
+            }
+            buffer.protect(bounds);
         }
     }
     @Override

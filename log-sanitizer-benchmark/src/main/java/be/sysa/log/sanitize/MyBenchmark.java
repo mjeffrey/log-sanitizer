@@ -17,7 +17,7 @@ public class MyBenchmark {
     @Fork(1)
     public void testJson() {
         Buffer buffer = new Buffer(request);
-        new JsonSanitizer().sanitize(buffer);
+        new JsonSanitizer().process(buffer, true);
     }
 
     @Benchmark
@@ -26,7 +26,7 @@ public class MyBenchmark {
     @Fork(1)
     public void testIban() {
         Buffer buffer = new Buffer(request);
-        new IbanSanitizer().sanitize(buffer);
+        new IbanSanitizer().process(buffer, true);
     }
 
     @Benchmark
@@ -35,7 +35,7 @@ public class MyBenchmark {
     @Fork(1)
     public void testPan() {
         Buffer buffer = new Buffer(request);
-        new PanSanitizer().sanitize(buffer);
+        new PanSanitizer().process(buffer, true);
     }
 
     @Benchmark
@@ -44,7 +44,7 @@ public class MyBenchmark {
     @Fork(1)
     public void testUuid() {
         Buffer buffer = new Buffer(request);
-        new UuidSanitizer().sanitize(buffer);
+        new UuidSanitizer().process(buffer, true);
     }
 
     @Benchmark
@@ -53,7 +53,7 @@ public class MyBenchmark {
     @Fork(1)
     public void testBase64() {
         Buffer buffer = new Buffer(request);
-        new Base64Sanitizer().sanitize(buffer);
+        new Base64Sanitizer().process(buffer, true);
     }
 
     @Benchmark
@@ -62,7 +62,7 @@ public class MyBenchmark {
     @Fork(1)
     public void testToString() {
         Buffer buffer = new Buffer(request);
-        new ToStringSanitizer().sanitize(buffer);
+        new ToStringSanitizer().process(buffer, true);
     }
 
 }
