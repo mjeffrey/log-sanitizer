@@ -24,7 +24,7 @@ class JwtSanitizerTest {
     void sanitize() {
 
         final Buffer buffer = new Buffer("MyToken=" + getSerializedJwt("Hello, world!"));
-        jwtSanitizer.sanitize(buffer);
+        jwtSanitizer.process(buffer, true);
 
         final String sanitized = buffer.toString();
         final String original = buffer.getOriginal();

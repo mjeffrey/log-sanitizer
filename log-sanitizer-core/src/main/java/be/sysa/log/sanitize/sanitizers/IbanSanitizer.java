@@ -21,44 +21,34 @@ import static java.util.Collections.singletonList;
 @NoArgsConstructor
 @Log
 public class IbanSanitizer extends PanSanitizer {
-    private boolean matchOnlyOnce;
-    private volatile Boolean ibanValidator;
+    private volatile Boolean ibanValidatorAvailable;
     private static final List<Pattern> patterns = MessageSanitizer.compilePatterns(singletonList(
             "[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"
     ));
 
-    public IbanSanitizer(boolean matchOnlyOnce) {
-        this.matchOnlyOnce = matchOnlyOnce;
-    }
-
-    public static IbanSanitizer protect() {
-        return new IbanSanitizer(true);
-    }
-
     @Override
-    public void sanitize(Buffer buffer) {
-        patterns.forEach(pattern -> maskIban(buffer, pattern));
+    public void process(Buffer buffer, boolean mask) {
+        patterns.forEach(pattern -> maskIban(buffer, pattern, mask));
     }
 
-    void maskIban(Buffer buffer, Pattern pattern) {
+    private void maskIban(Buffer buffer, Pattern pattern, boolean mask) {
         Matcher matcher = pattern.matcher(buffer.toString());
         while (matcher.find()) {
             if (isMatched(matcher.group())) {
-                if (matchOnlyOnce) {
-                    buffer.protect(new Bounds(matcher));
-                } else {
+                if (mask) {
                     buffer.maskCharactersBetween(new Bounds(matcher), 4, 4);
                 }
+                buffer.protect(new Bounds(matcher));
             }
         }
     }
 
     private boolean isMatched(String iban) {
-        if (ibanValidator == null || ibanValidator == Boolean.TRUE) {
+        if (ibanValidatorAvailable == null || ibanValidatorAvailable == Boolean.TRUE) {
             try {
                 IbanUtil.validate(iban);
             } catch (NoClassDefFoundError cnf) {
-                ibanValidator = Boolean.FALSE;
+                ibanValidatorAvailable = Boolean.FALSE;
                 log.warning("Could not load iban4j class, so we may match things that are not valid IBANs");
                 return true;
             } catch (RuntimeException e) {

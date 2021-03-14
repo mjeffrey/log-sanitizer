@@ -19,18 +19,26 @@ import static org.apache.commons.lang3.StringUtils.*;
  * It covers lombok @ToString, Intellij toString() and apache commons ToStringBuilder formats.
  * The keyword list is used to identify potential secrets.
  */
-public class ToStringSanitizer extends MessageSanitizer.StringSanitizer {
+public class ToStringSanitizer extends AbstractStringSanitizer {
     private static final int MIN_MAP_STRING_LENGTH = 12;
-    private static final List<Pattern> patterns = asList(Pattern.compile("(\\(.+\\))", DOTALL),  Pattern.compile("(\\{.+\\})", DOTALL), Pattern.compile("(\\[.+\\])", DOTALL));
+    private static final List<Pattern> patterns = asList(
+            Pattern.compile("(\\(.+\\))", DOTALL),
+            Pattern.compile("(\\{.+})", DOTALL),
+            Pattern.compile("(\\[.+])", DOTALL));
+
     @Override
-    public void sanitize(Buffer buffer) {
+    public void process(Buffer buffer, boolean mask) {
         for (Pattern pattern : patterns) {
             Matcher matcher = pattern.matcher(buffer);
             if (matcher.find()) {
                 String group = matcher.group();
                 if (group.length() > MIN_MAP_STRING_LENGTH) {
-                    String newMapString = filterMapStringFields(substring(group, 1, group.length()-1));
-                    buffer.replaceAt(new Bounds(matcher), left(group,1) + newMapString + right(group,1));
+                    Bounds bounds = new Bounds(matcher);
+                    if (mask) {
+                        String newMapString = filterMapStringFields(substring(group, 1, group.length() - 1));
+                        buffer.replaceAt(bounds, left(group, 1) + newMapString + right(group, 1));
+                    }
+                    buffer.protect(bounds);
                 }
             }
         }

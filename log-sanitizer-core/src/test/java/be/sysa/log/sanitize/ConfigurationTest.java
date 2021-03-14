@@ -12,7 +12,7 @@ public class ConfigurationTest {
     public void messageSanitizer_KnownSanitizers() {
         System.setProperty(MessageSanitizer.SANITIZER_PROPERTY_NAME, "JSON:IBAN:PAN");
         MessageSanitizer messageSanitizer = Configuration.messageSanitizer();
-        List<? extends Sanitizer> sanitizers = messageSanitizer.getSanitizers();
+        List<? extends Sanitizer> sanitizers = messageSanitizer.getMasked().getSanitizers();
         assertThat(sanitizers).extracting(Sanitizer::id).containsExactly("JSON", "IBAN", "PAN");
     }
 
@@ -20,14 +20,14 @@ public class ConfigurationTest {
     public void messageSanitizer_CustomSanitizers() {
         System.setProperty(MessageSanitizer.SANITIZER_PROPERTY_NAME, "JSON:" + CustomSanitizer.class.getName() + ":PAN");
         MessageSanitizer messageSanitizer = Configuration.messageSanitizer();
-        List<? extends Sanitizer> sanitizers = messageSanitizer.getSanitizers();
+        List<? extends Sanitizer> sanitizers = messageSanitizer.getMasked().getSanitizers();
         assertThat(sanitizers).extracting(Sanitizer::id).containsExactly("JSON", "CUSTOM", "PAN");
     }
 
     public static class CustomSanitizer implements Sanitizer{
 
         @Override
-        public void sanitize(Buffer buffer) {
+        public void process(Buffer buffer, boolean mask) {
 
         }
 

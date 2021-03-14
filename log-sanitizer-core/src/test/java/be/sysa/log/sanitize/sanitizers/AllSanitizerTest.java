@@ -126,7 +126,7 @@ public class AllSanitizerTest {
 
         JsonSanitizer jsonSanitizer = new JsonSanitizer();
         Buffer buffer = new Buffer(request);
-        jsonSanitizer.sanitize(buffer);
+        jsonSanitizer.process(buffer, true);
 
         String sanitizedBuffer = buffer.toString();
         EmbeddedJson sanitizedJsonRequest = new EmbeddedJson(sanitizedBuffer);
@@ -138,7 +138,7 @@ public class AllSanitizerTest {
 
     private Buffer assertSanitizedIsEqualTo(Sanitizer sanitizer, String request, String expected) {
         Buffer buffer = new Buffer(request);
-        sanitizer.sanitize(buffer);
+        sanitizer.process(buffer, true);
         assertThat(buffer.toString()).isEqualTo(expected);
         return buffer;
     }

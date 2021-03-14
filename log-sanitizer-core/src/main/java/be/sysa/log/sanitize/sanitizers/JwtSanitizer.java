@@ -20,29 +20,28 @@ import static java.util.Collections.singletonList;
 /**
  * Matches things that look like a Signed JWT (e.g. JWT access tokens, IDTokens) and masks the signature.
  * Note that since we are sure this is a JWT, Sanitizers that follow this one will not perform sanitization.
- *
  */
 @NoArgsConstructor
-public class JwtSanitizer extends MessageSanitizer.StringSanitizer {
+public class JwtSanitizer extends AbstractStringSanitizer {
 
     private static final List<Pattern> patterns = MessageSanitizer.compilePatterns(singletonList(
             "[A-Za-z0-9-_]{15,}\\.[A-Za-z0-9-_]{10,}\\.[A-Za-z0-9-_]{10,}"
     ));
 
     @Override
-    public void sanitize(Buffer buffer) {
-        patterns.forEach(pattern -> maskJwt(buffer, pattern));
+    public void process(Buffer buffer, boolean mask) {
+        patterns.forEach(pattern -> maskJwt(buffer, pattern, mask));
     }
 
-    private void maskJwt(Buffer buffer, Pattern pattern) {
+    private void maskJwt(Buffer buffer, Pattern pattern, boolean mask) {
         Matcher matcher = pattern.matcher(buffer.toString());
 
         while (matcher.find()) {
-            maskSignature(buffer, matcher);
+            maskSignature(buffer, matcher, mask);
         }
     }
 
-    private void maskSignature(Buffer buffer, Matcher matcher) {
+    private void maskSignature(Buffer buffer, Matcher matcher, boolean mask) {
         int headerStart = matcher.start();
         int signatureEnd = matcher.end() - 1;
 
@@ -52,7 +51,9 @@ public class JwtSanitizer extends MessageSanitizer.StringSanitizer {
         final String header = new String(Base64.getUrlDecoder().decode(jwt), StandardCharsets.UTF_8);
 
         if (isJoseHeader(header)) {
-            buffer.maskString("signature", new Bounds(signatureStart+1, signatureEnd));
+            if (mask) {
+                buffer.maskString("signature", new Bounds(signatureStart + 1, signatureEnd));
+            }
             buffer.protect(new Bounds(matcher));
         }
 

@@ -43,19 +43,19 @@ public class ToStringSanitizerTest {
     @Test
     public void sanitizeLombokToString() {
         Buffer buffer = bufferOf(myClass.toString());
-        sanitizer.sanitize(buffer);
+        sanitizer.process(buffer, true);
         assertThat(buffer.toString()).isEqualTo("ToStringSanitizerTest.MyClass(username=myuser, password=**********)");
     }
     @Test
     public void sanitizeToStringBuilderString() {
         Buffer buffer = bufferOf(myClass.toStringBuilderString());
-        sanitizer.sanitize(buffer);
+        sanitizer.process(buffer, true);
         assertThat(buffer.toString()).endsWith("[username=myuser,password=**********]");
     }
     @Test
     public void sanitizeIntellijString() {
         Buffer buffer = bufferOf(myClass.intellijToString());
-        sanitizer.sanitize(buffer);
+        sanitizer.process(buffer, true);
         assertThat(buffer.toString()).isEqualTo("MyClass{username='myuser', password=************}");
     }
 

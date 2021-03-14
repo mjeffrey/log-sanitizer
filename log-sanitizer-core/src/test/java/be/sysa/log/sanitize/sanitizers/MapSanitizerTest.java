@@ -25,7 +25,7 @@ public class MapSanitizerTest {
     @Test
     public void sanitizeMap() {
         Buffer buffer = bufferOf(map);
-        sanitizer.sanitize(buffer);
+        sanitizer.process(buffer, true);
         assertThat(buffer.toString()).isEqualTo("{username=myuser, password=********}");
     }
 

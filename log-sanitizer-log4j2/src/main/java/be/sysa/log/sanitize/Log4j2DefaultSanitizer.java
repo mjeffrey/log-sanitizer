@@ -11,7 +11,7 @@ import org.apache.logging.log4j.message.SimpleMessage;
 @Plugin(name = "DefaultSanitizer", category = "Core", elementType = "rewritePolicy", printObject = true)
 public final class Log4j2DefaultSanitizer implements RewritePolicy {
 
-    private static MessageSanitizer messageSanitizer = MessageSanitizer.all();
+    private static MessageSanitizer messageSanitizer = MessageSanitizer.recommended();
 
     @Override
     public LogEvent rewrite(final LogEvent event) {

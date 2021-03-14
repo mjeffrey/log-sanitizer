@@ -23,7 +23,7 @@ public class Base64SanitizerTest {
     public void sanitize(String base64) {
         Buffer buffer = new Buffer("AAA-" + base64 + "-ZZZ");
         System.out.println(buffer);
-        base64Sanitizer.sanitize(buffer);
+        base64Sanitizer.process(buffer, true);
         System.out.println(buffer);
         assertThat(buffer.toString()).contains("*****")
                 .startsWith("AAA-" + StringUtils.left(base64, 2))

@@ -4,7 +4,6 @@ import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static be.sysa.log.sanitize.MessageSanitizer.SANITIZER_PROPERTY_NAME;
 import static java.util.Arrays.stream;
@@ -12,21 +11,22 @@ import static java.util.Arrays.stream;
 /**
  * Configuration can be done via a system property for example: -Dbe.sysa.log.sanitize.Configuration="JSON:UUID:PAN"
  * The value of the property should contain a String with sanitizer Ids separated by colons.
- * It is not necessary to
  */
 public class Configuration {
 
-    private static Map<String, Sanitizer> knownSanitizers = MessageSanitizer.knownSanitizers();
+    private static Map<String, Sanitizer> knownSanitizerMap = MessageSanitizer.knownSanitizerMap();
 
     public static MessageSanitizer messageSanitizer() {
         String property = System.getProperty(SANITIZER_PROPERTY_NAME);
-        return MessageSanitizer.of(stream(StringUtils.split(property,":"))
+        SanitizerList.SanitizerListBuilder builder = SanitizerList.builder();
+        stream(StringUtils.split(property, ":"))
                 .map(Configuration::loadSanitizer)
-                .collect(Collectors.toList()));
+                .forEach(builder::add);
+        return MessageSanitizer.builder().masked(builder.build()).build();
     }
 
     private static Sanitizer loadSanitizer(String id) {
-        return knownSanitizers.containsKey(id) ? knownSanitizers.get(id) : newSanitizer(id);
+        return knownSanitizerMap.containsKey(id) ? knownSanitizerMap.get(id) : newSanitizer(id);
     }
 
     @SneakyThrows

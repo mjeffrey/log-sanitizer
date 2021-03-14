@@ -9,16 +9,16 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SensitiveLogTest extends AbstractFileTest {
+public class SensitiveLogTest extends AbstractSanitizerTest {
 
     public String maskSensitiveData(String string) {
         Buffer buffer = new Buffer(string);
 
-        new JsonSanitizer().sanitize(buffer);
-        new IbanSanitizer().sanitize(buffer);
-        new PanSanitizer().sanitize(buffer);
-        new UuidSanitizer().sanitize(buffer);
-        new Base64Sanitizer().sanitize(buffer);
+        new JsonSanitizer().process(buffer, true);
+        new IbanSanitizer().process(buffer, true);
+        new PanSanitizer().process(buffer, true);
+        new UuidSanitizer().process(buffer, true);
+        new Base64Sanitizer().process(buffer, true);
 
         return buffer.toString();
     }
@@ -40,7 +40,7 @@ public class SensitiveLogTest extends AbstractFileTest {
         assertThat(expected).isNotEqualTo(original);
 // TODO check that before JSON and after JSON are there.
         Buffer buffer = new Buffer(request);
-        new JsonSanitizer().sanitize(buffer);
+        new JsonSanitizer().process(buffer, true);
         JSONAssert.assertEquals(expected, extractJsonContent(buffer.toString()), JSONCompareMode.LENIENT);
 
     }
