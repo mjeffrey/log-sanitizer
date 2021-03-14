@@ -65,12 +65,12 @@ MyBenchmark.testUuid      thrpt    2  153878.500          ops/s
 <dependency>
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-core</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 </dependency>
 <dependency>
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-logback</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 </dependency>
 ```
 ##### Gradle:
@@ -118,18 +118,18 @@ public final class MyLog4j2Sanitizer implements RewritePolicy {
 <dependency>
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-core</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 </dependency>
 <dependency>
     <groupId>be.sysa.log-sanitizer</groupId>
     <artifactId>log-sanitizer-log4j2</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 </dependency>
 ```
 ##### Gradle:
 ```gradle
-compile group: 'be.sysa', name: 'log-sanitizer-core', version: '2.0.0'
-compile group: 'be.sysa', name: 'log-sanitizer-log4j2', version: '2.0.0'
+compile group: 'be.sysa', name: 'log-sanitizer-core', version: '2.0.1'
+compile group: 'be.sysa', name: 'log-sanitizer-log4j2', version: '2.0.1'
 ```
 
 # Additional ways to avoid logging secrets

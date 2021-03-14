@@ -4,8 +4,8 @@
 Check readme.sh
 
 ``` bash
-release_version=1.0.6
-new_version=2.0.0
+release_version=2.0.1
+new_version=2.0.2
 
 ./mvnw versions:set -DnewVersion=${release_version}
 ./mvnw clean deploy -P release-sign-artifacts
