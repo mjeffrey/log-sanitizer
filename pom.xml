@@ -115,7 +115,7 @@
         <logback.version>1.2.13</logback.version>
         <lombok.version>1.18.16</lombok.version>
 
-        <nimbus-jose-jwt.version>9.4.1</nimbus-jose-jwt.version>
+        <nimbus-jose-jwt.version>9.37.4</nimbus-jose-jwt.version>
         <iban4j.version>3.2.2-RELEASE</iban4j.version>
     </properties>
     <dependencyManagement>
