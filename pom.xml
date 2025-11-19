@@ -112,7 +112,7 @@
 
         <log4j2.version>2.17.1</log4j2.version>
         <log4j.version>1.2.17</log4j.version>
-        <logback.version>1.2.3</logback.version>
+        <logback.version>1.2.13</logback.version>
         <lombok.version>1.18.16</lombok.version>
 
         <nimbus-jose-jwt.version>9.4.1</nimbus-jose-jwt.version>
