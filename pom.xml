@@ -103,7 +103,7 @@
         <javac.target>1.8</javac.target>
         <minimum-maven.version>3.6.0</minimum-maven.version>
 
-        <assertj-core.version>3.18.1</assertj-core.version>
+        <assertj-core.version>3.27.7</assertj-core.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
         <jackson.version>2.15.0</jackson.version>
         <jmh.version>1.27</jmh.version>
